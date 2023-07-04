@@ -297,8 +297,9 @@ Here is the detailed evaluation results from the VQA challange on EvalAI:
 ### Pre-Training
 
 1. Prepare the datasets:
-   - Prepare the English image-text pairs: follow the configure in 
-   - Prepare the parallel sentence pairs: following the configure in pretrain_datasets/wikimatrix_simplified.yaml, make sure the dataset can be loaded by the "load_from_disk" method provided by
+   - Prepare the English image-text pairs: follow the configure in [pretrain_datasets/cc_coco_vg_img.yaml](https://github.com/FudanDISC/weakly-supervised-mVLP/blob/master/pretrain_datasets/cc_coco_vg_img.yaml), the corpus json file can be adopted from [here](https://storage.googleapis.com/sfr-pcl-data-research/ALBEF/json_pretrain.zip), then you should donwload the corresponding images and set the path in this configure file.
+   - Prepare the parallel sentence pairs: follow the configure in pretrain_datasets/wikimatrix_simplified.yaml, wikimatrix can be downloaded from [here](https://opus.nlpl.eu/WikiMatrix.php), we use all parallel corpus between English and target languages (make sure your dataset path can be loaded by the "load_from_disk" method provided by Huggingface.)
+   - Prepare the unpaired multilingual corpus: follow the configure in, we use a sub-sampled [cc100](https://data.statmt.org/cc-100/) corpus, the dataset can also be downloaded from huggingface, the preprocess details are in our paper (make sure your dataset path can be loaded by the "load_from_disk" method provided by Huggingface.)
 
 2. Prepare the initial checkpoint: download the ALBEF checkpoint from https://github.com/salesforce/ALBEF, then runs the following comman to get the initialized checkpoint INIT_CKPT:
    ```bash
