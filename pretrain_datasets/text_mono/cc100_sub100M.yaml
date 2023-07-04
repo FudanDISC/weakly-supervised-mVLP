@@ -1,0 +1,6 @@
+corpus: cc_100
+format: transformers
+languages: 'all'
+corpus_file: 
+  method: load_from_disk
+  path: /remote-home/zjli/CVLM/pretrain_datasets/monolingual/cc_100/sub_100M/

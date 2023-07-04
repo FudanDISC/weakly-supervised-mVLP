@@ -1,0 +1,6 @@
+corpus: wikimatrix
+format: transformers
+languages: 'all'
+corpus_file: 
+  method: load_from_disk
+  path: /root/pretrain_datasets/parallel_datasets/simplfied_wikimatrix/

@@ -1,0 +1,18 @@
+corpus: coco_vg_oi
+corpus_file: 
+  oi: 
+    path: /remote-home/zjli/CVLM/pretrain_datasets/object_detection/openimages_od.json
+    format: json
+    label_map:
+      zh: /remote-home/zjli/openimages/label_names/oi_labelmap_zh.json
+  coco: 
+    path: /remote-home/zjli/CVLM/pretrain_datasets/object_detection/coco-object-mm-text-only/
+    format: data
+  vg: 
+    path: /remote-home/zjli/CVLM/pretrain_datasets/object_detection/vg-object-mm-text-only/
+    format: data
+image_path:
+  oi: /root/pretrain_datasets/oi
+  vg: /root/pretrain_datasets/vg/
+  coco: /root/pretrain_datasets/coco2017/
+image_res: 256

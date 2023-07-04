@@ -1,0 +1,13 @@
+corpus: cc_coco_vg_cc12m
+format: json
+corpus_file: 
+  cc: /root/pretrain_datasets/json_pretrain/cc3m_train.json
+  coco: /root/pretrain_datasets/json_pretrain/coco.json
+  vg: /root/pretrain_datasets/json_pretrain/vg.json
+  cc12m: /root/pretrain_datasets/json_pretrain/cc12m_full.json
+image_path:
+  cc: /root/pretrain_datasets/cc/
+  vg: /root/pretrain_datasets/vg/
+  coco: /root/pretrain_datasets/coco2015/
+  cc12m: /root/pretrain_datasets/cc12m/
+image_res: 256

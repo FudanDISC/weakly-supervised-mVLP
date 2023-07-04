@@ -1,0 +1,17 @@
+corpus: coco_vg_cc
+corpus_file: 
+  vg: 
+    path: /remote-home/zjli/CVLM/pretrain_datasets/translated_pairs/vg-mm-text-only
+    format: data
+  coco: 
+    path: /remote-home/zjli/CVLM/pretrain_datasets/translated_pairs/coco-mm-text-only
+    format: data
+  cc: 
+    path: /remote-home/zjli/CVLM/pretrain_datasets/translated_pairs/cc3m-uc2-mm-text-only
+    format: data
+    url2index: /remote-home/share/dbclouddownload/ConceptualCaption/url2index.json
+image_path:
+  cc: /root/pretrain_datasets/cc/
+  vg: /root/pretrain_datasets/vg/
+  coco: /root/pretrain_datasets/coco2015/
+image_res: 256
