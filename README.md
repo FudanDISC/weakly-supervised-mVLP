@@ -37,7 +37,7 @@ To prepare the datasets in IGLUE, please follow the instruction [here](https://g
 
 #### xVNLI
 
-1. Prepare the data and then correctly modify the configure file in [albef/configs/xVNLI/cls_base_xVNLI_xlm-r_freeze_single.yaml]
+1. Prepare the data and then correctly modify the data path in the corresponding configure file in [albef/configs/xVNLI/cls_base_xVNLI_xlm-r_freeze_single.yaml](https://github.com/FudanDISC/weakly-supervised-mVLP/blob/master/albef/configs/xVNLI/cls_base_xVNLI_xlm-r_init_freeze_single.yaml).
 
 2. Performe training on English data through:
 
