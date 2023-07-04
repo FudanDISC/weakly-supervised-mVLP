@@ -1,10 +1,10 @@
-# MVPTR: Multi-Stage Vision-Language Pre-Training via Multi-Level Semantic Alignment
+# Unifying Cross-Lingual and Cross-Modal Modeling Towards Weakly Supervised Multilingual Vision-Language Pre-training
 
 ## Introduction
 
-This repository is the implementation of our project [MVPTR: Multi-Stage Vision-Language Pre-Training via Multi-Level Semantic Alignment](https://arxiv.org/abs/2201.12596). In this paper, we propose to explicitly align vision and language at multiple levels. In MVP, we firstly introduce concepts in both modalities to construct two-level semantic representations for language and vision, then we design a 2-stage pre-training framework to learn intra-modal and cross-modal interaction respectively. The procedure is illustrated in the figure below:
+This repository is the implementation of our ACL 2023 paper [Unifying Cross-Lingual and Cross-Modal Modeling Towards Weakly Supervised Multilingual Vision-Language Pre-training](https://arxiv.org/abs/2201.12596). In this paper, we explore to perform mVLP (multilingual vision-language pre-training) under the **weakly-supervised setup**: no multilingual image-text pairs are provided while only English image-text pairs and multilingual texts are available. We unify cross-modal and cross-lingual modeling into one joint pre-training framework. The procedure is illustrated in the figure below:
 
-![MVPTR](./figs/MVP.png)
+![MVPTR](./figs/weak_mvlp.png)
 
 Part of the implementation is based on the project [Oscar&VinVL](https://github.com/microsoft/Oscar) and [ALBEF](https://github.com/salesforce/ALBEF), many thanks to Microsoft and Salesforce for the open-source resource.
 
@@ -23,9 +23,6 @@ python setup.py build develop
 
 # install requirements
 pip install -r requirements.txt
-
-mkdir pretrained_models
-mkdir pretrain_datasets
 ```
 
 ### Data Preprocess:
@@ -298,8 +295,8 @@ Here is the detailed evaluation results from the VQA challange on EvalAI:
 
 1. Prepare the datasets:
    - Prepare the English image-text pairs: follow the configure in [pretrain_datasets/cc_coco_vg_img.yaml](https://github.com/FudanDISC/weakly-supervised-mVLP/blob/master/pretrain_datasets/cc_coco_vg_img.yaml), the corpus json file can be adopted from [here](https://storage.googleapis.com/sfr-pcl-data-research/ALBEF/json_pretrain.zip), then you should donwload the corresponding images and set the path in this configure file.
-   - Prepare the parallel sentence pairs: follow the configure in pretrain_datasets/wikimatrix_simplified.yaml, wikimatrix can be downloaded from [here](https://opus.nlpl.eu/WikiMatrix.php), we use all parallel corpus between English and target languages (make sure your dataset path can be loaded by the "load_from_disk" method provided by Huggingface.)
-   - Prepare the unpaired multilingual corpus: follow the configure in, we use a sub-sampled [cc100](https://data.statmt.org/cc-100/) corpus, the dataset can also be downloaded from huggingface, the preprocess details are in our paper (make sure your dataset path can be loaded by the "load_from_disk" method provided by Huggingface.)
+   - Prepare the parallel sentence pairs: follow the configure in [pretrain_datasets/wikimatrix_simplified.yaml](https://github.com/FudanDISC/weakly-supervised-mVLP/blob/master/pretrain_datasets/wikimatrix_simplified.yaml), wikimatrix can be downloaded from [here](https://opus.nlpl.eu/WikiMatrix.php), we use all parallel corpus between English and target languages (make sure your dataset path can be loaded by the "load_from_disk" method provided by Huggingface.)
+   - Prepare the unpaired multilingual corpus: follow the configure in [pretrain_datasets/text_mono/cc100_sub800M.yaml](https://github.com/FudanDISC/weakly-supervised-mVLP/blob/master/pretrain_datasets/text_mono/cc100_sub800M.yaml), we use a sub-sampled [cc100](https://data.statmt.org/cc-100/) corpus, the dataset can also be downloaded from huggingface, the preprocess details are in our paper (make sure your dataset path can be loaded by the "load_from_disk" method provided by Huggingface.)
 
 2. Prepare the initial checkpoint: download the ALBEF checkpoint from https://github.com/salesforce/ALBEF, then runs the following comman to get the initialized checkpoint INIT_CKPT:
    ```bash
@@ -324,4 +321,4 @@ Here is the detailed evaluation results from the VQA challange on EvalAI:
     --mono_txt_dataset_file text_mono/root_cc100_sub800M.yaml  --train_batch_size_mono_txt 2048  --mono_txt_max_length 64
     ```
 The command above fits a server with 8 3090 GPUs, you can modify it at your wish.
-```
+
