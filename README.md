@@ -296,17 +296,25 @@ Here is the detailed evaluation results from the VQA challange on EvalAI:
 
 ### Pre-Training
 
-1. Prepare the datasets
+1. Prepare the datasets:
+   - Prepare the English image-text pairs: follow the configure in 
+   - Prepare the parallel sentence pairs: following the configure in pretrain_datasets/wikimatrix_simplified.yaml, make sure the dataset can be loaded by the "load_from_disk" method provided by
 
-2. Prepare the initial checkpoint
+2. Prepare the initial checkpoint: download the ALBEF checkpoint from https://github.com/salesforce/ALBEF, then runs the following comman to get the initialized checkpoint INIT_CKPT:
+   ```bash
+   python utils/initialize_ckpt.py \
+   --albef_ckpt ALBEF.pth \
+   --xlm_ckpt xlm-roberta-base \
+   --output INIT_CKPT
+   ```
 
-3. Training:
+3. Training: run the following command to perform the unified pre-training from the INIT_CKPT!
 
    ```bash
    deepspeed --include localhost:0,1,2,3,4,5,6,7 cvlm/run_uni_stage2_albef.py \
-    --deepspeed_config oscar/tmp_config.json --albef_config albef/configs/pretrain_base_xlm-r_unistage2_freeze_vis.yaml \
+    --deepspeed_config oscar/tmp_config.json --albef_config albef/configs/pretrain_base_xlm-r_freeze_vis.yaml \
     --max_grad_norm 10.0 --gradient_accumulation_steps 1 --output_dir pretrain/unified_mvlp/  \
-    --tokenizer_name /remote-home/zjli/CVLM/ckpt/pretrained/xlm-r/ --model_name_or_path /remote-home/zjli/tmp_data/xlm-roberta-base/albef_xlmr_roberta_base_ver2.pt \
+    --tokenizer_name xlm-roberta-base --model_name_or_path INIT_CKPT \
     --do_lower_case --learning_rate 1e-04  --do_train  --mask_prob 0.15 --deepspeed  --avoid_mlm_head_tie \
     --max_seq_length 35  --max_seq_length_txt 50  --on_memory  --num_workers 4 --drop_out 0.1  --train_batch_size 512 \
     --txt_dataset_file wikimatrix_simplified.yaml --train_batch_size_txt 2048  --img_txt_mod img-txt-full \
@@ -314,18 +322,5 @@ Here is the detailed evaluation results from the VQA challange on EvalAI:
     --data_dir ./pretrain_datasets/ --dataset_file cc_coco_vg_img.yaml  --txt_dataformat transformers \
     --mono_txt_dataset_file text_mono/root_cc100_sub800M.yaml  --train_batch_size_mono_txt 2048  --mono_txt_max_length 64
     ```
-
-
-
-## Citations
-
-Please consider citing this paper if you find this repository useful:
-
-```latex
-@article{li2022mvp,
-  title={MVP: Multi-Stage Vision-Language Pre-Training via Multi-Level Semantic Alignment},
-  author={Li, Zejun and Fan, Zhihao and Tou, Huaixiao and Wei, Zhongyu},
-  journal={arXiv preprint arXiv:2201.12596},
-  year={2022}
-}
+The command above fits a server with 8 3090 GPUs, you can modify it at your wish.
 ```
