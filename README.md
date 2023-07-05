@@ -203,7 +203,11 @@ Notice that you can replace the "--eval_split test" argument with "--eval_split 
 
 ### Multilingual Image-Text Retrieval
 
-1. prepare
+1. prepare the dataset:
+   - prepare MSCOCO following the configure in [albef/configs/mscoco
+/retrieval_base_coco_lr_xlm-r_init.yaml](https://github.com/FudanDISC/weakly-supervised-mVLP/blob/master/albef/configs/mscoco/retrieval_base_coco_lr_xlm-r_init.yaml): please refer to their corresponding paper for data in [Japanese](https://stair-lab-cit.github.io/STAIR-captions-web/) and [Chinese](https://github.com/li-xirong/coco-cn). 
+   - prepare Multi30K following the configure in [albef/configs/multi30k
+/retrieval_base_lr_xlm-r_init.yaml](https://github.com/FudanDISC/weakly-supervised-mVLP/blob/master/albef/configs/multi30k/retrieval_base_lr_xlm-r_init.yaml): Please follow [Multi30K project](https://github.com/multi30k/dataset) to prepare the data and for the detail of split, you can refer to [here](https://github.com/zmykevin/UC2/issues/7).
 
 2. run the command with your target DATASET_CONFIG:
 ```bash
@@ -236,6 +240,7 @@ python3 cvlm/run_retrieval_albef_un.py \
     --output_dir output_retrieval/evaluation/
 ```
 modify the "test_language" to test on your target language!
+Notice: you may want to adjust the "--num_captions_per_img_val 32 --num_images_per_cap_val 32" arguments to get the best performance!
 
 ### Pre-Training
 
