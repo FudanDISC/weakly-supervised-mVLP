@@ -69,7 +69,7 @@ Notice that you can replace the "--eval_split test" argument with "--eval_split 
 
 #### xGQA
 
-1. Prepare the data and then correctly modify the data path in the corresponding configure file in [albef/configs/xVNLI/cls_base_xVNLI_xlm-r_freeze_single.yaml](https://github.com/FudanDISC/weakly-supervised-mVLP/blob/master/albef/configs/xVNLI/cls_base_xVNLI_xlm-r_init_freeze_single.yaml) and download the ans2label mapping [here](https://drive.google.com/file/d/1pKD9ZEFbR15oysxAbe1DNU0yYVMwzOlR/view?usp=sharing) to transform the QA task to classification.
+1. Prepare the data and then correctly modify the data path in the corresponding configure file in [albef/configs/xGQA/qa_base_xGQA_xlm-r_init_freeze_single.yaml](https://github.com/FudanDISC/weakly-supervised-mVLP/blob/master/albef/configs/xGQA/qa_base_xGQA_xlm-r_init_freeze_single.yaml) and download the ans2label mapping [here](https://drive.google.com/file/d/1pKD9ZEFbR15oysxAbe1DNU0yYVMwzOlR/view?usp=sharing) to transform the QA task to classification.
 
 2. Performe training on English data through:
 
@@ -113,16 +113,16 @@ Notice that you can replace the "--eval_split test" argument with "--eval_split 
    python utils/initialize_ckpt.py \
    --albef_ckpt ALBEF.pth \
    --xlm_ckpt xlm-roberta-base \
-   --output INIT_CKPT
+   --output $INIT_CKPT
    ```
 
 3. Training: run the following command to perform the unified pre-training from the INIT_CKPT!
 
    ```bash
-   deepspeed --include localhost:0,1,2,3,4,5,6,7 cvlm/run_uni_stage2_albef.py \
-    --deepspeed_config oscar/tmp_config.json --albef_config albef/configs/pretrain_base_xlm-r_freeze_vis.yaml \
+   deepspeed --include localhost:0,1,2,3,4,5,6,7 cvlm/run_uni_pretrain.py \
+    --deepspeed_config oscar/tmp_config.json --albef_config albef/configs/pretrain_base_xlm-r_uni_freeze_vis.yaml \
     --max_grad_norm 10.0 --gradient_accumulation_steps 1 --output_dir pretrain/unified_mvlp/  \
-    --tokenizer_name xlm-roberta-base --model_name_or_path INIT_CKPT \
+    --tokenizer_name xlm-roberta-base --model_name_or_path $INIT_CKPT \
     --do_lower_case --learning_rate 1e-04  --do_train  --mask_prob 0.15 --deepspeed  --avoid_mlm_head_tie \
     --max_seq_length 35  --max_seq_length_txt 50  --on_memory  --num_workers 4 --drop_out 0.1  --train_batch_size 512 \
     --txt_dataset_file wikimatrix_simplified.yaml --train_batch_size_txt 2048  --img_txt_mod img-txt-full \

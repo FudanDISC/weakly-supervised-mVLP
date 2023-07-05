@@ -1,0 +1,18 @@
+bert_config: 'albef/configs/config_xlm-r.json'
+
+image_res: 256
+vision_width: 768
+embed_dim: 256
+batch_size: 64
+temp: 0.07
+mlm_probability: 0.15
+queue_size: 65536
+momentum: 0.995
+alpha: 0.4
+text_encoder: 'bert-base-uncased'
+avoid_nan: True
+freeze_module: ['vis_encoder']
+text_modeling: {enable: False, teacher: False, teacher_class: 'xlm', teacher_name: 'xlm-mlm-tlm-xnli15-1024', teacher_alpha: 0.4}
+
+optimizer: {opt: adamW, lr: 1e-4, weight_decay: 0.02}
+scheduler: {sched: cosine, lr: 1e-4, epochs: 30, min_lr: 1e-5, decay_rate: 1, warmup_lr: 1e-5, warmup_epochs: 20, cooldown_epochs: 0}
