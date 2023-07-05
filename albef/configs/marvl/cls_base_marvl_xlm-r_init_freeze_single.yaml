@@ -1,0 +1,66 @@
+
+train_file:  '/remote-home/zjli/CVLM/datasets/iglue/datasets/marvl/zero_shot/processed/train_en.jsonl' #'/remote-home/zjli/CVLM/datasets/GQA/questions/train_all_questions/train_all_questions_*.json'
+val_file: 
+  en: '/remote-home/zjli/CVLM/datasets/iglue/datasets/marvl/zero_shot/processed/val_en.jsonl'          
+test_file: 
+  id: '/remote-home/zjli/CVLM/datasets/iglue/datasets/marvl/zero_shot/annotations/marvl-id.jsonl'
+  ta: '/remote-home/zjli/CVLM/datasets/iglue/datasets/marvl/zero_shot/annotations/marvl-ta.jsonl'
+  sw: '/remote-home/zjli/CVLM/datasets/iglue/datasets/marvl/zero_shot/annotations/marvl-sw.jsonl'
+  tr: '/remote-home/zjli/CVLM/datasets/iglue/datasets/marvl/zero_shot/annotations/marvl-tr.jsonl'
+  zh: '/remote-home/zjli/CVLM/datasets/iglue/datasets/marvl/zero_shot/annotations/marvl-zh.jsonl'
+translate_test_file:
+  id: '/remote-home/zjli/CVLM/datasets/iglue/datasets/marvl/zero_shot/annotations_machine-translate/marvl-id_gmt.jsonl'
+  ta: '/remote-home/zjli/CVLM/datasets/iglue/datasets/marvl/zero_shot/annotations_machine-translate/marvl-ta_gmt.jsonl'
+  sw: '/remote-home/zjli/CVLM/datasets/iglue/datasets/marvl/zero_shot/annotations_machine-translate/marvl-sw_gmt.jsonl'
+  tr: '/remote-home/zjli/CVLM/datasets/iglue/datasets/marvl/zero_shot/annotations_machine-translate/marvl-tr_gmt.jsonl'
+  zh: '/remote-home/zjli/CVLM/datasets/iglue/datasets/marvl/zero_shot/annotations_machine-translate/marvl-zh_gmt.jsonl'
+image_root: 
+  remote:
+    train: '/remote-home/zjli/image_pool/nlvr2/train_dev/'
+    val: 
+      en: '/remote-home/zjli/image_pool/nlvr2/train_dev/'
+    test:
+      id: '/remote-home/zjli/image_pool/nlvr2/marvl_test/id'
+      ta: '/remote-home/zjli/image_pool/nlvr2/marvl_test/ta'
+      sw: '/remote-home/zjli/image_pool/nlvr2/marvl_test/sw'
+      tr: '/remote-home/zjli/image_pool/nlvr2/marvl_test/tr'
+      zh: '/remote-home/zjli/image_pool/nlvr2/marvl_test/zh'
+  local:
+    train: '/root/tmp_data/train_en.tsv'
+    val: 
+      en: '/root/tmp_data/val_en.tsv'
+    test:
+      ar: '/root/tmp_data/test_ar.tsv'
+      bg: '/root/tmp_data/test_bg.tsv'
+      da: '/root/tmp_data/test_da.tsv'
+      el: '/root/tmp_data/test_el.tsv'
+      en: '/root/tmp_data/test_en.tsv'
+      et: '/root/tmp_data/test_et.tsv'
+      id: '/root/tmp_data/test_id.tsv'
+      ja: '/root/tmp_data/test_ja.tsv'
+      ko: '/root/tmp_data/test_ko.tsv'
+      tr: '/root/tmp_data/test_tr.tsv'
+      vi: '/root/tmp_data/test_vi.tsv'
+
+bert_config: 'albef/configs/config_xlm-r.json'
+
+image_res: 384
+batch_size_train: 32
+batch_size_test: 64
+
+vision_width: 768
+embed_dim: 256
+temp: 0.07
+k_test: 128
+text_encoder: 'bert-base-uncased'
+model_type: 'nlvr2' # or generation
+answer_num: 1853
+cls_head: {head_type: 'linear', class_num: 2}
+freeze_module: ['vis_encoder', 'embedding', 'txt_encoder']
+
+alpha: 0.4
+distill: True
+warm_up: True
+
+optimizer: {opt: adamW, lr: 4e-5, weight_decay: 0.02} 
+schedular: {sched: cosine, lr: 1e-5, epochs: 10, min_lr: 1e-6, decay_rate: 1, warmup_lr: 1e-5, warmup_epochs: 1, cooldown_epochs: 0}
