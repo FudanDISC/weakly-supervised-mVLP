@@ -25,11 +25,11 @@ python setup.py build develop
 pip install -r requirements.txt
 ```
 
-The pre-trained checkpoint are available here:, our model follows the base setting
+The pre-trained checkpoint are available [here](https://drive.google.com/file/d/16TNcpCXUGwBwtm4q-HMdxyCbUfEv1yw-/view?usp=sharing), our model architecture follows the base setting.
 
 ## Usage
 
-In this section, we 
+In this section, we will introduce how to use our code, including cross-lingual transfer in IGLUE, multilingual retrieval in COCO and Multi30K, and pre-training. 
 
 ### Cross-lingual Transfer on IGLUE
 
@@ -44,7 +44,7 @@ To prepare the datasets in IGLUE, please follow the instruction [here](https://g
 ```bash
 python cvlm/run_xVNLI_albef.py \
     --albef_config albef/configs/xVNLI/cls_base_xVNLI_xlm-r_init_freeze_single.yaml \
-    --model_name_or_path PRETRAINED_CKPT \
+    --model_name_or_path $PRETRAINED_CKPT \
     --tokenizer_name xlm-roberta-base \
     --do_train --do_lower_case --save_epoch 1 \
     --per_gpu_train_batch_size 64 --learning_rate 0.00002 \
@@ -65,6 +65,41 @@ python3 cvlm/run_xVNLI_albef.py \
     --per_gpu_eval_batch_size 32 --max_seq_length 50 \
     --test_lang all --output_dir output_xVNLI/evaluation/
 ```
+Notice that you can replace the "--eval_split test" argument with "--eval_split translate_test" to perform translate testing!
+
+#### xGQA
+
+1. Prepare the data and then correctly modify the data path in the corresponding configure file in [albef/configs/xVNLI/cls_base_xVNLI_xlm-r_freeze_single.yaml](https://github.com/FudanDISC/weakly-supervised-mVLP/blob/master/albef/configs/xVNLI/cls_base_xVNLI_xlm-r_init_freeze_single.yaml) and download the ans2label mapping [here](https://drive.google.com/file/d/1pKD9ZEFbR15oysxAbe1DNU0yYVMwzOlR/view?usp=sharing) to transform the QA task to classification.
+
+2. Performe training on English data through:
+
+```bash
+python3 cvlm/run_xGQA_albef.py \
+    --albef_config albef/configs/xGQA/qa_base_xGQA_xlm-r_init_freeze_single.yaml \
+    --model_name_or_path $PRETRAINED_CKPT \
+    --tokenizer_name xlm-roberta-base \
+    --do_train --do_lower_case --save_epoch 1  --image_dir_format local \
+    --per_gpu_train_batch_size 64 --learning_rate 0.00003 \
+    --per_gpu_eval_batch_size 128  --ans2label_map trainval_all_ans2label.pkl \
+    --num_train_epochs 10 --weight_decay 0.05  --test_lang all \
+    --max_seq_length 40  --evaluate_during_training  --logging_steps 20 \
+    --output_dir output_xGQA/ 
+```
+
+3. Perform zero-shot transfer by testing on other languages:
+
+```bash
+python3 cvlm/run_xGQA_albef.py \
+    --albef_config albef/configs/qa_base_xGQA_xlm-r_init_freeze_single.yaml \
+    --eval_model_dir output_xGQA/checkpoint-x-xxxx/ \
+    --tokenizer_name xlm-roberta-base \
+    --do_test --do_eval --do_lower_case --save_epoch 1  --image_dir_format local \
+    --per_gpu_eval_batch_size 64  --ans2label_map trainval_all_ans2label.pkl \
+    --test_lang all  --eval_split test --max_seq_length 40 \
+    --output_dir output_xGQA/evaluation/
+```
+Notice that you can replace the "--eval_split test" argument with "--eval_split translate_test" to perform translate testing!
+
 
 ### Pre-Training
 
