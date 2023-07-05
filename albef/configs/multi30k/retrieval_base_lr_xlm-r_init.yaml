@@ -1,0 +1,38 @@
+
+train_file: 
+  en: '/remote-home/zjli/CVLM/datasets/multi30k/train_5caps.en.json'
+  cs: '/remote-home/zjli/CVLM/datasets/multi30k/train.cs.json'
+  de: '/remote-home/zjli/CVLM/datasets/multi30k/train_5caps.de.json'
+  fr: '/remote-home/zjli/CVLM/datasets/multi30k/train.fr.json'
+val_file: 
+  en: '/remote-home/zjli/CVLM/datasets/multi30k/val_5caps.en.json'
+  cs: '/remote-home/zjli/CVLM/datasets/multi30k/val.cs.json'
+  de: '/remote-home/zjli/CVLM/datasets/multi30k/val.de.json'
+  fr: '/remote-home/zjli/CVLM/datasets/multi30k/val.fr.json'             
+test_file: 
+  en: '/remote-home/zjli/CVLM/datasets/multi30k/test_2016_5caps.en.json'
+  cs: '/remote-home/zjli/CVLM/datasets/multi30k/test_2016_flickr.cs.json'
+  de: '/remote-home/zjli/CVLM/datasets/multi30k/test_2016_flickr.de.json'
+  fr: '/remote-home/zjli/CVLM/datasets/multi30k/test_2016_flickr.fr.json'
+image_root: 
+  local: '/root/pretrain_datasets/flickr30k/'
+  remote: '/remote-home/zjli/flickr30k/flickr30k-images/'
+
+bert_config: 'albef/configs/config_xlm-r.json'
+
+image_res: 384
+batch_size_train: 32
+batch_size_test: 64
+
+vision_width: 768
+embed_dim: 256
+temp: 0.07
+k_test: 128
+text_encoder: 'bert-base-uncased'
+
+alpha: 0.4
+distill: True
+warm_up: True
+
+optimizer: {opt: adamW, lr: 2e-5, weight_decay: 0.02} 
+schedular: {sched: cosine, lr: 1e-5, epochs: 10, min_lr: 1e-6, decay_rate: 1, warmup_lr: 1e-5, warmup_epochs: 1, cooldown_epochs: 0}

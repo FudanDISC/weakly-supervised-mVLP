@@ -1,0 +1,45 @@
+
+train_file:  
+  en: '/remote-home/zjli/CVLM/datasets/coco/en/train.json'
+  ja: '/remote-home/zjli/CVLM/datasets/coco/ja/train.json'
+  zh: '/remote-home/zjli/CVLM/datasets/coco-cn/json_captions/human_written_train.json'
+val_file:
+  en: '/remote-home/zjli/CVLM/datasets/coco/en/minival.json' 
+  ja: '/remote-home/zjli/CVLM/datasets/coco/ja/minival.json'
+  zh: '/remote-home/zjli/CVLM/datasets/coco-cn/json_captions/human_written_val.json'                
+test_file:
+  en:
+    split1: '/remote-home/zjli/CVLM/datasets/coco/en/test1k_0.json'
+    split2: '/remote-home/zjli/CVLM/datasets/coco/en/test1k_1.json'
+    split3: '/remote-home/zjli/CVLM/datasets/coco/en/test1k_2.json'
+    split4: '/remote-home/zjli/CVLM/datasets/coco/en/test1k_3.json'
+    split5: '/remote-home/zjli/CVLM/datasets/coco/en/test1k_4.json'
+  ja:
+    split1: '/remote-home/zjli/CVLM/datasets/coco/ja/test1k_0.json'
+    split2: '/remote-home/zjli/CVLM/datasets/coco/ja/test1k_1.json'
+    split3: '/remote-home/zjli/CVLM/datasets/coco/ja/test1k_2.json'
+    split4: '/remote-home/zjli/CVLM/datasets/coco/ja/test1k_3.json'
+    split5: '/remote-home/zjli/CVLM/datasets/coco/ja/test1k_4.json'
+  zh: '/remote-home/zjli/CVLM/datasets/coco-cn/json_captions/human_written_test.json'
+image_root: 
+  local: '/root/pretrain_datasets/coco2015/' #flickr30k-images/
+  remote: '/remote-home/share/VQA/Images/'
+
+bert_config: 'albef/configs/config_xlm-r.json'
+
+image_res: 384
+batch_size_train: 32
+batch_size_test: 64
+
+vision_width: 768
+embed_dim: 256
+temp: 0.07
+k_test: 128
+text_encoder: 'bert-base-uncased'
+
+alpha: 0.4
+distill: True
+warm_up: True
+
+optimizer: {opt: adamW, lr: 4e-5, weight_decay: 0.02} 
+schedular: {sched: cosine, lr: 1e-5, epochs: 10, min_lr: 1e-6, decay_rate: 1, warmup_lr: 1e-5, warmup_epochs: 1, cooldown_epochs: 0}

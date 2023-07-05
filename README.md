@@ -201,6 +201,42 @@ python3 cvlm/run_retrieval_albef_wit.py \
 ```
 Notice that you can replace the "--eval_split test" argument with "--eval_split translate_test" to perform translate testing!
 
+### Multilingual Image-Text Retrieval
+
+1. prepare
+
+2. run the command with your target DATASET_CONFIG:
+```bash
+python3 cvlm/run_retrieval_albef_un.py \
+    --albef_config $DATASET_CONFIG \
+    --model_name_or_path $PRETRAINED_CKPT \
+    --tokenizer_name xlm-roberta-base --logging_steps 40 \
+    --do_train --do_lower_case --save_steps 3625 \
+    --per_gpu_train_batch_size 12 --learning_rate 0.00002 \
+    --per_gpu_eval_batch_size 32  --train_language all  --test_language all \
+    --num_train_epochs 10 --weight_decay 0.05  --image_dir_format local \
+    --max_seq_length 50  --evaluate_during_training  \
+    --num_captions_per_img_val 32 --num_images_per_cap_val 32  --save_metric mR \
+    --output_dir output_retrieval/
+```
+modify the "--train_language" and "--text_language" for different setting. For example:
+ - "--train languages en --test_language fr" indicates transfering from English to French;
+ - "--train languages fr --test_language fr" indicates French fine-tuning,
+ - "--train languages all --test_language all" means all-language fine-tuning.
+
+3. do test and evaluation using:
+```bash
+python3 cvlm/run_retrieval_albef_un.py \
+    --albef_config $DATASET_CONFIG \
+    --eval_model_dir output_retrieval/checkpoint-x-xxxxx/ \
+    --tokenizer_name xlm-roberta-base  --eval_split test \
+    --do_test  --do_eval --do_lower_case --image_dir_format local \
+    --per_gpu_eval_batch_size 32  --max_seq_length 50  \
+    --num_captions_per_img_val 32 --num_images_per_cap_val 32  --test_language all \
+    --output_dir output_retrieval/evaluation/
+```
+modify the "test_language" to test on your target language!
+
 ### Pre-Training
 
 1. Prepare the datasets:
