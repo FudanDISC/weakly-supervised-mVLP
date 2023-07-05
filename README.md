@@ -167,6 +167,40 @@ python3 cvlm/run_xFlickrCO_albef.py \
 ```
 Notice that you can replace the "--eval_split test" argument with "--eval_split translate_test" to perform translate testing!
 
+#### WIT
+
+1. Prepare the data and then correctly modify the data path in the corresponding configure file in [albef/configs/wit/retrieval_base_wit_xlm-r_init.yaml](https://github.com/FudanDISC/weakly-supervised-mVLP/blob/master/albef/configs/wit/retrieval_base_wit_xlm-r_init.yaml).
+
+2. Performe training on English data through:
+
+```bash
+python3 cvlm/run_retrieval_albef_wit.py \
+    --albef_config albef/configs/wit/retrieval_base_wit_xlm-r_init.yaml \
+    --model_name_or_path $PRETRAINED_CKPT \
+    --tokenizer_name xlm-roberta-base --image_dir_format local \
+    --do_train --do_lower_case --save_steps 10000 \
+    --per_gpu_train_batch_size 12 --learning_rate 0.00004 \
+    --per_gpu_eval_batch_size 32  --test_lang all \
+    --num_train_epochs 10 --weight_decay 0.05 \
+    --max_seq_length 50  --evaluate_during_training \
+    --num_captions_per_img_val 16 --num_images_per_cap_val 16 \
+    --output_dir output_wit/  --save_metric r1
+```
+
+3. Perform zero-shot transfer by testing on other languages:
+
+```bash
+python3 cvlm/run_retrieval_albef_wit.py \
+    --albef_config albef/configs/wit/retrieval_base_wit_xlm-r_init.yaml \
+    --eval_model_dir pretrain/checkpoint-xxxx/ \
+    --tokenizer_name xlm-roberta-base  --eval_split test \
+    --do_test  --do_eval --do_lower_case --image_dir_format local \
+    --per_gpu_eval_batch_size 16  --test_lang all --max_seq_length 50  \
+    --num_captions_per_img_val 16 --num_images_per_cap_val 16 \
+    --output_dir output_wit/evaluation
+```
+Notice that you can replace the "--eval_split test" argument with "--eval_split translate_test" to perform translate testing!
+
 ### Pre-Training
 
 1. Prepare the datasets:

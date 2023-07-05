@@ -1,0 +1,85 @@
+
+train_file:  '/remote-home/zjli/CVLM/datasets/iglue/datasets/wit/processed/train_en.jsonl' #'/remote-home/zjli/CVLM/datasets/GQA/questions/train_all_questions/train_all_questions_*.json'
+val_file: 
+  en: '/remote-home/zjli/CVLM/datasets/iglue/datasets/wit/processed/val_en.jsonl'          
+test_file: 
+  ar: '/remote-home/zjli/CVLM/datasets/iglue/datasets/wit/processed/test_ar.jsonl'
+  bg: '/remote-home/zjli/CVLM/datasets/iglue/datasets/wit/processed/test_bg.jsonl'
+  da: '/remote-home/zjli/CVLM/datasets/iglue/datasets/wit/processed/test_da.jsonl'
+  el: '/remote-home/zjli/CVLM/datasets/iglue/datasets/wit/processed/test_el.jsonl'
+  en: '/remote-home/zjli/CVLM/datasets/iglue/datasets/wit/processed/test_en.jsonl'
+  et: '/remote-home/zjli/CVLM/datasets/iglue/datasets/wit/processed/test_et.jsonl'
+  id: '/remote-home/zjli/CVLM/datasets/iglue/datasets/wit/processed/test_id.jsonl'
+  ja: '/remote-home/zjli/CVLM/datasets/iglue/datasets/wit/processed/test_ja.jsonl'
+  ko: '/remote-home/zjli/CVLM/datasets/iglue/datasets/wit/processed/test_ko.jsonl'
+  tr: '/remote-home/zjli/CVLM/datasets/iglue/datasets/wit/processed/test_tr.jsonl'
+  vi: '/remote-home/zjli/CVLM/datasets/iglue/datasets/wit/processed/test_vi.jsonl'
+translate_test_file:
+  ar: '/remote-home/zjli/CVLM/datasets/iglue/datasets/wit/processed_trans/test_ar.jsonl'
+  bg: '/remote-home/zjli/CVLM/datasets/iglue/datasets/wit/processed_trans/test_bg.jsonl'
+  da: '/remote-home/zjli/CVLM/datasets/iglue/datasets/wit/processed_trans/test_da.jsonl'
+  el: '/remote-home/zjli/CVLM/datasets/iglue/datasets/wit/processed_trans/test_el.jsonl'
+  en: '/remote-home/zjli/CVLM/datasets/iglue/datasets/wit/processed/test_en.jsonl'
+  et: '/remote-home/zjli/CVLM/datasets/iglue/datasets/wit/processed_trans/test_et.jsonl'
+  id: '/remote-home/zjli/CVLM/datasets/iglue/datasets/wit/processed_trans/test_id.jsonl'
+  ja: '/remote-home/zjli/CVLM/datasets/iglue/datasets/wit/processed_trans/test_ja.jsonl'
+  ko: '/remote-home/zjli/CVLM/datasets/iglue/datasets/wit/processed_trans/test_ko.jsonl'
+  tr: '/remote-home/zjli/CVLM/datasets/iglue/datasets/wit/processed_trans/test_tr.jsonl'
+  vi: '/remote-home/zjli/CVLM/datasets/iglue/datasets/wit/processed_trans/test_vi.jsonl'
+
+image_root: 
+  remote:
+    train: '/root/tmp_data/train_en.tsv'
+    val: 
+      en: '/root/tmp_data/val_en.tsv'
+    test:
+      ar: '/root/tmp_data/test_ar.tsv'
+      bg: '/root/tmp_data/test_bg.tsv'
+      da: '/root/tmp_data/test_da.tsv'
+      el: '/root/tmp_data/test_el.tsv'
+      en: '/root/tmp_data/test_en.tsv'
+      et: '/root/tmp_data/test_et.tsv'
+      id: '/root/tmp_data/test_id.tsv'
+      ja: '/root/tmp_data/test_ja.tsv'
+      ko: '/root/tmp_data/test_ko.tsv'
+      tr: '/root/tmp_data/test_tr.tsv'
+      vi: '/root/tmp_data/test_vi.tsv'
+  local:
+    train: '/root/tmp_data/train_en.tsv'
+    val: 
+      en: '/root/tmp_data/val_en.tsv'
+    test:
+      ar: '/root/tmp_data/test_ar.tsv'
+      bg: '/root/tmp_data/test_bg.tsv'
+      da: '/root/tmp_data/test_da.tsv'
+      el: '/root/tmp_data/test_el.tsv'
+      en: '/root/tmp_data/test_en.tsv'
+      et: '/root/tmp_data/test_et.tsv'
+      id: '/root/tmp_data/test_id.tsv'
+      ja: '/root/tmp_data/test_ja.tsv'
+      ko: '/root/tmp_data/test_ko.tsv'
+      tr: '/root/tmp_data/test_tr.tsv'
+      vi: '/root/tmp_data/test_vi.tsv'
+
+bert_config: 'albef/configs/config_xlm-r.json'
+
+image_res: 384
+batch_size_train: 32
+batch_size_test: 64
+
+vision_width: 768
+embed_dim: 256
+temp: 0.07
+k_test: 128
+text_encoder: 'bert-base-uncased'
+model_type: 'classification' # or generation
+answer_num: 1853
+cls_head: {head_type: 'linear', class_num: 3}
+freeze_module: []
+
+alpha: 0.4
+distill: True
+warm_up: True
+
+optimizer: {opt: adamW, lr: 2e-5, weight_decay: 0.02} 
+schedular: {sched: cosine, lr: 1e-5, epochs: 10, min_lr: 1e-6, decay_rate: 1, warmup_lr: 1e-5, warmup_epochs: 1, cooldown_epochs: 0}
